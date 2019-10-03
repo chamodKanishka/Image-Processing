@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib as plt
 from keras.preprocessing.image import ImageDataGenerator
-from tensorflow_estimator.python.estimator.canned.timeseries import model
+from keras.models import Model
+
 
 print(tf.__version__)
 
@@ -32,10 +33,14 @@ validation_generator = train_datagen.flow_from_directory(
     subset='validation'
 
 )
-
+model = keras.Sequential([
+    keras.layers.Flatten(input_shape=(28,28)),
+    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Dense(10, activation='softmax')
+])
 model.fit_generator(
     train_generator,
     steps_per_epoch = train_generator.samples,
     validation_data = validation_generator,
     validation_steps = validation_generator.samples,
-    epochs = 80)
+    epochs = 5)
