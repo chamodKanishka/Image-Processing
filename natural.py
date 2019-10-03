@@ -7,6 +7,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 
 
+
 print(tf.__version__)
 
 TRAIN_DIR = 'C:/Users/chathurangan.EMBLA/Desktop/New folder/Natural/natural_dataset'
@@ -20,24 +21,33 @@ train_datagen = ImageDataGenerator(rescale=1. / 255,
                                    )
 train_generator = train_datagen.flow_from_directory(
     TRAIN_DIR,
-    target_size=(28, 28),
-    batch_size=20,
+    target_size=(42, 42),
+    batch_size=30,
     class_mode='binary',
     subset='training'
 )
 validation_generator = train_datagen.flow_from_directory(
     TRAIN_DIR,
-    target_size=(28,28),
-    batch_size=15,
+    target_size=(42,42),
+    batch_size=25,
     class_mode='binary',
     subset='validation'
 
 )
+
 model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28,28)),
-    keras.layers.Dense(128, activation='relu'),
+    keras.layers.Flatten(input_shape=(28, 28)),
+    keras.layers.Dense(20, activation='relu'),
     keras.layers.Dense(10, activation='softmax')
+
 ])
+
+model.compile(optimizer='abs',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy']
+              )
+
+
 model.fit_generator(
     train_generator,
     steps_per_epoch = train_generator.samples,
