@@ -21,36 +21,35 @@ train_datagen = ImageDataGenerator(rescale=1. / 255,
                                    )
 train_generator = train_datagen.flow_from_directory(
     TRAIN_DIR,
-    target_size=(42, 42),
-    batch_size=30,
+    target_size=(28, 28),
+    batch_size=10,
     class_mode='binary',
     subset='training'
 )
 validation_generator = train_datagen.flow_from_directory(
     TRAIN_DIR,
-    target_size=(42,42),
-    batch_size=25,
+    target_size=(28,28),
+    batch_size=10,
     class_mode='binary',
     subset='validation'
 
 )
 
-model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(20, activation='relu'),
-    keras.layers.Dense(10, activation='softmax')
-
-])
-
-model.compile(optimizer='abs',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy']
-              )
-
-
-model.fit_generator(
-    train_generator,
-    steps_per_epoch = train_generator.samples,
-    validation_data = validation_generator,
-    validation_steps = validation_generator.samples,
-    epochs = 5)
+# model = keras.Sequential([
+#     keras.layers.Flatten(input_shape=(28, 28)),
+#     keras.layers.Dense(20, activation='relu'),
+#     keras.layers.Dense(10, activation='softmax')
+#
+# ])
+#
+# model.compile(
+#     optimizer= 'adam',
+#     loss='sparse_categorical_crossentropy'
+#
+# )
+# model.fit_generator(
+#     train_generator,
+#     steps_per_epoch = train_generator.samples,
+#     validation_data = validation_generator,
+#     validation_steps = validation_generator.samples,
+#     epochs = 5)
